@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>提示词优化器</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid mt-5">
+        <h1 class="text-center mb-4">提示词优化器</h1>
+        
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group mb-3">
+                    <label for="example_text">示例文本：</label>
+                    <textarea class="form-control" id="example_text" rows="5" placeholder="请输入示例文本..."></textarea>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label for="expected_output">期望输出：</label>
+                    <textarea class="form-control" id="expected_output" rows="5" placeholder="请输入期望输出..."></textarea>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label for="target_text">目标文本：</label>
+                    <textarea class="form-control" id="target_text" rows="5" placeholder="请输入目标文本..."></textarea>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label for="last_prompt">待优化提示词：</label>
+                    <textarea class="form-control" id="last_prompt" rows="5" placeholder="请输入待优化的提示词...如果没有，可以留空"></textarea>
+                </div>
+                
+                <button class="btn btn-primary" id="optimize-btn" onclick="optimize()">
+                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                    <span class="btn-text">优化提示词</span>
+                </button>
+            </div>
+            
+            <div class="col-md-8">
+                <div class="result-container">
+                    <h3>优化结果</h3>
+                    <!-- 最佳结果卡片 -->
+                    <div class="card mb-3">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">最佳结果</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <h6>最佳提示词模板：</h6>
+                                <pre id="best_template" class="result-text"></pre>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <h6>最佳回答：</h6>
+                                <pre id="best_response" class="result-text"></pre>
+                            </div>
+
+                            <div class="mb-3">
+                                <h6>优化后的回答：</h6>
+                                <pre id="result_response" class="result-text"></pre>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>相似度分数：</h6>
+                                    <p id="best_similarity_score" class="score"></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>通用性分数：</h6>
+                                    <p id="best_generality_score" class="score"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 所有结果表格 -->
+                    <div class="card">
+                        <div class="card-header bg-secondary text-white">
+                            <h5 class="mb-0">所有生成结果</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>提示词模板</th>
+                                            <th>生成回答</th>
+                                            <th>相似度分数</th>
+                                            <th>通用性分数</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="results_table">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html> 
